@@ -1,8 +1,8 @@
 use lambda_runtime::{handler_fn, Context, Error};
 use serde_json::{json, Value};
+use std::process;
+use std::env;
 
-// エントリポイント
-// Lambda特有のものを集約させる
 #[tokio::main]
 async fn main() -> Result<(), Error> {
     let func = handler_fn(my_handler);
@@ -12,8 +12,18 @@ async fn main() -> Result<(), Error> {
 
 async fn my_handler(event: Value, _: Context) -> Result<Value, Error> {
     let first_name = event["firstName"].as_str().unwrap_or("world");
+    let notion_key = "NOTION_API";
 
-    Ok(json!({ "message": format!("Hello, {}!", first_name) }))
+    let notion_api_key = match env::var(notion_key) {
+        Ok(val) => val,
+        Err(err) => {
+            println!("{}: {}", err, notion_key);
+            process::exit(1);
+        }
+    };
+    Ok(json!({
+        "message": format!("Hello, {}!, {}", first_name, notion_api_key)
+    }))
 }
 
 #[cfg(test)]
