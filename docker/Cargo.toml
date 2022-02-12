@@ -1,0 +1,15 @@
+[package]
+name = "stock_data"
+version = "0.1.0"
+authors = ["sintaro <sintaronettt@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+lambda_runtime = "0.4"
+lambda_http = "0.4.0"
+serde_json = "1.0.59"
+tokio = "1.11.0"
+
+[[bin]]
+name = "hello"
+path = "src/main.rs"
