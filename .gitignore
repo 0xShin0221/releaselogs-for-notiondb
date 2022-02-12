@@ -1,1 +1,4 @@
 /target
+.aws-sam
+template.yml
+samconfig.toml
